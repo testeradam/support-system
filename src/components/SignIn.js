@@ -12,48 +12,64 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import { blue } from '@mui/material/colors';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 
 const defaultTheme = createTheme();
 
 const header = createTheme({
-    palatte:{
+    palatte: {
         primary: {
-            main: blue[500]
+            main: "#041e42"
         }
     }
 })
 
 export default function SignIn() {
-
+    const navigate = useNavigate();
     const [show, setShow] = useState(true);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const userData = {
-            email: data.get('email'),
-            password: data.get('password'),
-        };
-        //http://abcapp1.com/user/authentication
-        const requestOption = {
-            method: 'POST',
-            headers: { 'Content=Type': 'application/json' },
-            body: JSON.stringify(userData),
-        };
-        // fetch('http://abcapp1.com/user/authentication', requestOption)
-        //     .then((res) => res.json())
-        //     .then((data) => setShow(false));
-        setShow(false);
+        console.log(data);
+        if(data.get('email') && data.get('password')) {
+            const userData = {
+                email: data.get('email'),
+                password: data.get('password'),
+            };
+            //http://abcapp1.com/user/authentication
+            // axios.post('/sign-in', userData)
+            //   .then(function (response) {
+            //     console.log(response);
+            //   })
+            //   .catch(function (error) {
+            //     console.log(error);
+            //   });
+            navigate('/home')
+        } else {
+
+        }
     };
 
     return (
         <div>
-            <header className='all-header'> Header </header>
-            {!show && (<div>
-                Landing Page
-            </div>)}
+            <header>            
+                <Box sx={{ flexGrow: 1, backgroundColor: '#041e42 !important' }}>
+                    <AppBar position="static">
+                        <Toolbar variant="dense">
+                            <Typography variant="h6" color="inherit" component="div">
+
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                </Box>
+            </header>
+
             {show && (<div>
                 <ThemeProvider theme={defaultTheme}>
                     <Container component="main" maxWidth="xs">
@@ -72,7 +88,7 @@ export default function SignIn() {
                             <Typography component="h1" variant="h5">
                                 Sign in
                             </Typography>
-                            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                                 <TextField
                                     margin="normal"
                                     required
@@ -117,7 +133,17 @@ export default function SignIn() {
                     </Container>
                 </ThemeProvider>
             </div>)}
-            <footer className='all-footer'> Footer </footer>
+            <footer className='all-footer'>
+                <Box sx={{ flexGrow: 1, backgroundColor: '#041e42 !important' }}>
+                    <AppBar position="static">
+                        <Toolbar variant="dense">
+                            <Typography variant="h6" color="inherit" component="div">
+
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                </Box>
+            </footer>
         </div>
     );
 }

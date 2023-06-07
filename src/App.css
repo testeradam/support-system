@@ -47,10 +47,10 @@
 
 .all-footer {
   height: 60px;
-  background: lightslategrey;
   bottom: 0px;
   position: absolute;
   width: 100%;
   display: grid;
+  flex-grow: 1;
   align-content: center;
 }
