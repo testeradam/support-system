@@ -1,18 +1,44 @@
-import logo from './logo.svg';
 import './App.css';
-import LoginComponent from './components/loginComponent';
 import SignIn from './components/SignIn';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Landing from './components/landing';
+import { createBrowserRouter, RouterProvider, Routes, Route } from "react-router-dom";
 import MyApplication from './components/myApplication';
-const router = createBrowserRouter([
-  { path: '/', element: <SignIn /> },
-  { path: '/home', element: <Landing /> },
-  { path: '/my-application', element: <MyApplication /> }
-])
+import Menubar from './components/menubar';
+import Layout from './components/layout';
+// import Root, {
+//   loader as rootLoader,
+//   action as rootAction,
+// } from "./routes/root";
+// const router = createBrowserRouter([
+//   { path: '/', element: <SignIn /> },
+//   { 
+//     path: '/',
+//     element: <Menubar/>,
+//     children: [
+//       {
+//         path: "my-application",
+//         element: <MyApplication />,
+//       },
+//     ],
+//   },
+// ])
 
 function App() {
-  return <RouterProvider  router={router}/>;
+  return (
+    <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index element={<SignIn />} />
+          <Route path="my-application" element={<MyApplication />} />
+          {/* <Route
+            path="/protected"
+            element={
+              <RequireAuth>
+                <ProtectedPage />
+              </RequireAuth>
+            }
+          /> */}
+        </Route>
+      </Routes>
+  );
 }
 
 export default App;

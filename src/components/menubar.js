@@ -19,8 +19,11 @@ export default function Menubar() {
     } 
 
     const navPage = (menuName) => {
+        console.log(menuName);
         if(menuName === 'byApp') {
             navigate('/my-application')
+        } else if(menuName === 'allApp') {
+            navigate('/all-application')
         }
     }
     return (

@@ -1,73 +1,118 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
-import { useState } from 'react';
-import AddIcon from '@mui/icons-material/Add';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import { BarChart } from '@mui/icons-material';
-import { useNavigate } from "react-router-dom";
-import { FormControl, InputLabel, Select } from '@mui/material';
+import { useState } from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import CustomCard from "./CustomCard";
+
+const applicationListData = [
+    {
+        lable: 'Dev',
+        value: 'dev'
+    },
+    {
+        lable: 'Test',
+        value: 'test'
+    },
+    {
+        lable: 'QA',
+        value: 'qa'
+    },
+    {
+        lable: 'Prod',
+        value: 'prod'
+    },
+];
+const applicationDataSet = [
+    {
+        title: 'status',
+        appStatus: 'pass',
+        color: '#95396a'
+    },
+    {
+        title: 'jmsStatus',
+        appStatus: 'pass',
+        color: '#394395'
+    },
+    {
+        title: 'dbStatus',
+        appStatus: 'pass',
+        color: '#954b39'
+    },
+    {
+        title: 'storageStatus',
+        appStatus: 'pass',
+        color: '#519539'
+    },
+]
+
 export default function MyApplication() {
-    const [show, setShow] = useState(false);
-    const [application, setApplication] = useState('dev');
-    const navigate = useNavigate();
-    const showMenu = () => {
-        setShow(!show);
-    };
+  const [show, setShow] = useState(false);
+  const [application, setApplication] = useState("dev");
+  const [process, setProcess] = useState("dev");
 
-    const navPage = (menuName) => {
-        if(menuName === 'byApp') {
-            navigate('/my-application')
-        }
-    };
-
-    const handleChange = (e) => {
-        e.preventDefault();
-        console.log(e)
-    };
-    return(<>
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar variant="dense">
-                    <IconButton onClick={showMenu} edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" color="inherit" component="div">
-                        Photos
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-        </Box>
-        <Sidebar collapsed={show}>
-            <Menu>
-                <SubMenu label="Ping Admin" icon={<BarChart />}>
-                    <MenuItem onClick={() => navPage('byApp')}> By Application </MenuItem>
-                    <MenuItem onClick={() => navPage('allApp')}> All Applications </MenuItem>
-                </SubMenu>
-                <MenuItem icon={<AcUnitIcon />}> Documentation </MenuItem>
-                <MenuItem icon={<AddIcon />}> Calendar </MenuItem>
-            </Menu>
-        </Sidebar>
-        <div>
-        <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Select 1</InputLabel>
-            <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={application}
-                label="Age"
-                onChange={handleChange}
-            >
-                <MenuItem value="dev">Dev</MenuItem>
-                <MenuItem value="test">Test</MenuItem>
-                <MenuItem value="qa">QA</MenuItem>
-                <MenuItem value="prod">Prod</MenuItem>
-            </Select>
-        </FormControl>
-        </div>
-    </>);
-};
+  const handleChange = (e) => {
+    e.preventDefault();
+    console.log(e);
+    // axios.get(`/get-process?environment=${application}&appName=visual)
+    //   .then(function (response) {
+    //     setProcess(responce.data);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+  };
+  const processChange = (e) => {
+    e.preventDefault();
+  }
+  return (
+    <>
+      <FormControl>
+        <InputLabel id="demo-simple-select-label">Application</InputLabel>
+        <Select
+          sx={{ m: 1, minWidth: 240 }}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={application}
+          label="Application"
+          onChange={handleChange}
+        >
+            {applicationListData.map(({lable, value}, idx) => <MenuItem value={value} key={`application${idx}`}>{lable}</MenuItem>)}
+          {/* <MenuItem value={"dev"}>Dev</MenuItem>
+          <MenuItem value={"test"}>Test</MenuItem>
+          <MenuItem value={"qa"}>QA</MenuItem>
+          <MenuItem value={"prod"}>Prod</MenuItem> */}
+        </Select>
+      </FormControl>
+      <FormControl>
+        <InputLabel id="demo-simple-select-label">Application</InputLabel>
+        <Select
+          sx={{ m: 1, minWidth: 240 }}
+          labelId="demo-simple-select-label"
+          id="set-simple-select"
+          value={process}
+          label="Process"
+          onChange={processChange}
+        >
+            {applicationListData.map(({lable, value}, idx) => <MenuItem value={value} key={`process${idx}`}>{lable}</MenuItem>)}
+          {/* <MenuItem value={"dev"}>Dev</MenuItem>
+          <MenuItem value={"test"}>Test</MenuItem>
+          <MenuItem value={"qa"}>QA</MenuItem>
+          <MenuItem value={"prod"}>Prod</MenuItem> */}
+        </Select>
+      </FormControl>
+      <Grid container spacing={4}>
+        {applicationDataSet.map(({appStatus, title, color}, idx) =><Grid item xs={3}>
+          <CustomCard
+            title={appStatus}
+            subtitle={title}
+            color={color}
+            key={`custom-card${idx}`}
+          />
+        </Grid>)}
+        
+      </Grid>
+    </>
+  );
+}

@@ -42,6 +42,7 @@ export default function SignIn() {
                 email: data.get('email'),
                 password: data.get('password'),
             };
+            localStorage.setItem('useNA', 'Alex');
             //http://abcapp1.com/user/authentication
             // axios.post('/sign-in', userData)
             //   .then(function (response) {
@@ -50,7 +51,7 @@ export default function SignIn() {
             //   .catch(function (error) {
             //     console.log(error);
             //   });
-            navigate('/home')
+            navigate('/my-application')
         } else {
 
         }

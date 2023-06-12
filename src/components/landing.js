@@ -2,7 +2,7 @@ import Menubar from "./menubar";
 
 const Landing = () => {
     return <div>
-        <Menubar />
+        THis is landing page
     </div>
 };
 
